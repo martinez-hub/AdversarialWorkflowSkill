@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 — 2026-08-19
+
+- Skill is now slash-command only (`disable-model-invocation: true`); Claude never auto-launches the workflow. Step 0 simplified accordingly.
+
 ## 1.0.0 — 2026-08-19
 
 First public release, migrated from a personal `~/.claude/commands/adversarial-workflow.md` (written for Opus 4.8) to a distributable skill/plugin.

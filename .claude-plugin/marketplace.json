@@ -7,7 +7,7 @@
       "name": "adversarial-workflow",
       "source": "./",
       "description": "Adversarial multi-agent code review skill (/adversarial-workflow)",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "development"
     }
   ]

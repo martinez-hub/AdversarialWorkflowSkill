@@ -1,7 +1,8 @@
 ---
 name: adversarial-workflow
-description: Use when the user explicitly asks for an adversarial, multi-agent, exhaustive, or "really thorough" review of a PR, branch, diff, commit range, or path — or runs /adversarial-workflow. Expensive (many subagents); not for routine "review this" requests.
+description: Adversarial multi-agent review of a PR, branch, diff, commit range, or path. Slash-command only (/adversarial-workflow) because a run spawns many subagents.
 argument-hint: "[PR number | branch | A..B | path | empty = current branch vs default] [--thorough] [--profile code|docs|deps]"
+disable-model-invocation: true
 compatibility: Claude Code >= 2.1.154 with the Workflow tool enabled; git; gh for PR targets
 allowed-tools:
   - Bash(git diff *)
@@ -20,9 +21,9 @@ You are running the **adversarial review** workflow. Requested target: `$ARGUMEN
 
 Many independent reviewers (one per *lens*) hunt for real defects in a diff; their findings are deduplicated; then a refutation-biased skeptic tries to **disprove** each one by reading the real code. Only findings that survive are reported. Typical cost: 6–25 subagents, 250k–1M tokens, 5–10 minutes.
 
-## Step 0 — Confirm this is an explicit opt-in
+## Step 0 — This is an explicit opt-in
 
-The `Workflow` tool requires the user to opt in to multi-agent orchestration. You are authorized to call it here **only if** the user typed `/adversarial-workflow …` or asked in their own words for an adversarial / multi-agent / exhaustive review. If you loaded this skill on your own initiative for an ordinary review request, do NOT launch: say what this would do and cost, and ask the user to run `/adversarial-workflow <target>`.
+This skill is slash-command only (`disable-model-invocation: true`): the user typed `/adversarial-workflow …`, which is the explicit opt-in to multi-agent orchestration the `Workflow` tool requires. You are authorized to call `Workflow` here.
 
 ## Step 1 — Resolve the review target
 

@@ -11,7 +11,7 @@
             └─ review:semantic      ┘
 ```
 
-It is built on Claude Code's [`Workflow` tool](https://code.claude.com/docs/en/workflows.md) (deterministic multi-agent orchestration) and is an *explicit opt-in*: a run spawns 6–25 subagents and typically costs 250k–1M tokens and 5–10 minutes. Use it for the review you'd otherwise ask a second senior engineer to do — not for every commit.
+It is built on Claude Code's [`Workflow` tool](https://code.claude.com/docs/en/workflows.md) (deterministic multi-agent orchestration) and is **slash-command only** — Claude never launches it on its own (`disable-model-invocation: true`), because a run spawns 6–25 subagents and typically costs 250k–1M tokens and 5–10 minutes. Use it for the review you'd otherwise ask a second senior engineer to do — not for every commit.
 
 ## Why
 
@@ -85,7 +85,7 @@ Claude passes these to the workflow; you can ask for them in plain words ("only 
 
 ## How it's wired
 
-- `skills/adversarial-workflow/SKILL.md` — what Claude reads: resolve target → pick profile → `Workflow({ scriptPath, args })` → report. Includes an `Agent`-tool fallback when `Workflow` isn't available.
+- `skills/adversarial-workflow/SKILL.md` — what Claude reads when you run `/adversarial-workflow`: resolve target → pick profile → `Workflow({ scriptPath, args })` → report. Includes an `Agent`-tool fallback when `Workflow` isn't available. To let Claude invoke it on its own (e.g. when you say "adversarial review of PR 57"), remove `disable-model-invocation: true` from the frontmatter.
 - `skills/adversarial-workflow/adversarial-review.js` — the workflow script. Review phase fans out one agent per lens (`parallel`, a deliberate barrier so findings can be deduplicated before paying for verification); verify phase fans out per distinct finding. Structured output is enforced with JSON schemas. A finding survives only if **every** verifier fails to refute it.
 - `tests/run-mock.mjs` — offline tests of the script logic with mocked agents (dedup, refutation, thorough mode, profiles, quoting, caps). `node tests/run-mock.mjs`.
 - `tests/make-fixture.sh` — builds a throwaway repo with five planted bugs and one decoy for an end-to-end check (see the script header for what should be confirmed vs refuted, and the reference run numbers).
