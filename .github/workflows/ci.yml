@@ -1,0 +1,23 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Offline workflow-logic tests (mocked agents)
+        run: node tests/run-mock.mjs
+      - name: SKILL.md frontmatter sanity
+        run: |
+          f=skills/adversarial-workflow/SKILL.md
+          head -1 "$f" | grep -qx -- '---'
+          grep -q '^name: adversarial-workflow$' "$f"
+          grep -q '^description: ' "$f"
+          test -f skills/adversarial-workflow/adversarial-review.js
+          python3 -c 'import json;json.load(open(".claude-plugin/plugin.json"));json.load(open(".claude-plugin/marketplace.json"))'

@@ -1,0 +1,14 @@
+{
+  "name": "adversarial-workflow",
+  "owner": { "name": "Josue Martinez-Martinez", "url": "https://github.com/martinez-hub" },
+  "metadata": { "description": "Marketplace for the Adversarial Workflow code-review skill" },
+  "plugins": [
+    {
+      "name": "adversarial-workflow",
+      "source": "./",
+      "description": "Adversarial multi-agent code review skill (/adversarial-workflow)",
+      "version": "1.0.0",
+      "category": "development"
+    }
+  ]
+}

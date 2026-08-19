@@ -1,0 +1,11 @@
+{
+  "name": "adversarial-workflow",
+  "displayName": "Adversarial Workflow",
+  "description": "Adversarial multi-agent code review: diverse-lens reviewers, dedup, and refutation-biased verification over a PR, branch, diff, or path (/adversarial-workflow).",
+  "version": "1.0.0",
+  "author": { "name": "Josue Martinez-Martinez", "url": "https://github.com/martinez-hub" },
+  "homepage": "https://github.com/martinez-hub/AdversarialWorkflowSkill",
+  "repository": "https://github.com/martinez-hub/AdversarialWorkflowSkill",
+  "license": "MIT",
+  "keywords": ["code-review", "multi-agent", "workflow", "adversarial", "skill"]
+}
