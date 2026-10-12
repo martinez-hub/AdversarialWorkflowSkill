@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 — 2026-10-12
+
+- Docs only. Cost figures now span both reference runs: 14–17 agents, 400k–550k tokens, ~2.5 min.
+
 ## 1.0.4 — 2026-10-12
 
 - Docs only. README: project `.claude/settings.json` snippet for enabling the plugin per repository, the one-command install form, the namespaced command name after a plugin install, and cost figures replaced by the measured reference run (17 agents, ~400k tokens, ~2.5 min). SKILL.md cost line aligned with it.

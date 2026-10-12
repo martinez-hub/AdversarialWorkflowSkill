@@ -19,7 +19,7 @@ allowed-tools:
 
 You are running the **adversarial review** workflow. Requested target: `$ARGUMENTS`
 
-Many independent reviewers (one per *lens*) hunt for real defects in a diff; their findings are deduplicated; then a refutation-biased skeptic tries to **disprove** each one by reading the real code. Only findings that survive are reported. Cost: one subagent per lens plus one per distinct finding (two with `--thorough`); the reference run on the test fixture used 17 agents, ~400k tokens and ~2.5 minutes.
+Many independent reviewers (one per *lens*) hunt for real defects in a diff; their findings are deduplicated; then a refutation-biased skeptic tries to **disprove** each one by reading the real code. Only findings that survive are reported. Cost: one subagent per lens plus one per distinct finding (two with `--thorough`); reference runs on the test fixture used 14–17 agents, 400k–550k tokens and ~2.5 minutes.
 
 ## Step 0 — Confirm this is an explicit opt-in
 

@@ -8,7 +8,7 @@ Independent reviewers each inspect the diff through a different lens (correctnes
 diff ──► review:<lens> ×6 ──► dedup ──► verify:<finding> ×N ──► confirmed / refuted
 ```
 
-A run spawns one subagent per lens plus one per distinct finding. The reference run on the bundled fixture used 17 agents, about 400k tokens and 2.5 minutes; `--thorough` costs more. Because of that cost it is an explicit opt-in: Claude runs it when you type `/adversarial-workflow` or ask for an adversarial review, and never for routine review requests.
+A run spawns one subagent per lens plus one per distinct finding. Reference runs on the bundled fixture used 14 to 17 agents, 400k to 550k tokens and about 2.5 minutes; `--thorough` costs more. Because of that cost it is an explicit opt-in: Claude runs it when you type `/adversarial-workflow` or ask for an adversarial review, and never for routine review requests.
 
 ## Install
 
