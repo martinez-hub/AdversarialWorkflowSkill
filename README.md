@@ -8,7 +8,7 @@ Independent reviewers each inspect the diff through a different lens (correctnes
 diff ──► review:<lens> ×6 ──► dedup ──► verify:<finding> ×N ──► confirmed / refuted
 ```
 
-A run spawns 6–25 subagents (~250k–1M tokens, 5–10 min). It is slash-command only: Claude never launches it on its own.
+A run spawns 6–25 subagents (~250k–1M tokens, 5–10 min), so it is an explicit opt-in: Claude runs it when you type `/adversarial-workflow` or ask for an adversarial review, and never for routine review requests.
 
 ## Install
 

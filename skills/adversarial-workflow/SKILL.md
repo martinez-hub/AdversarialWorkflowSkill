@@ -1,10 +1,10 @@
 ---
 name: adversarial-workflow
-description: Adversarial multi-agent review of a PR, branch, diff, commit range, or path. Slash-command only (/adversarial-workflow) because a run spawns many subagents.
+description: Use when the user explicitly asks for an adversarial, multi-agent, exhaustive, or "really thorough" review of a PR, branch, diff, commit range, or path — or runs /adversarial-workflow. Expensive (many subagents); not for routine "review this" requests.
 argument-hint: "[PR number | branch | A..B | path | empty = current branch vs default] [--thorough] [--profile code|docs|deps]"
-disable-model-invocation: true
 compatibility: Claude Code >= 2.1.154 with the Workflow tool enabled; git; gh for PR targets
 allowed-tools:
+  - Bash(cp ${CLAUDE_SKILL_DIR}/adversarial-review.js *)
   - Bash(git diff *)
   - Bash(git merge-base *)
   - Bash(git rev-parse *)
@@ -21,9 +21,9 @@ You are running the **adversarial review** workflow. Requested target: `$ARGUMEN
 
 Many independent reviewers (one per *lens*) hunt for real defects in a diff; their findings are deduplicated; then a refutation-biased skeptic tries to **disprove** each one by reading the real code. Only findings that survive are reported. Typical cost: 6–25 subagents, 250k–1M tokens, 5–10 minutes.
 
-## Step 0 — This is an explicit opt-in
+## Step 0 — Confirm this is an explicit opt-in
 
-This skill is slash-command only (`disable-model-invocation: true`): the user typed `/adversarial-workflow …`, which is the explicit opt-in to multi-agent orchestration the `Workflow` tool requires. You are authorized to call `Workflow` here.
+The `Workflow` tool requires the user to opt in to multi-agent orchestration. You are authorized to call it here **only if** the user typed `/adversarial-workflow …` or asked in their own words for an adversarial / multi-agent / exhaustive review. If you loaded this skill on your own initiative for an ordinary review request, do NOT launch: say what this would do and cost, and ask the user to run `/adversarial-workflow <target>`.
 
 ## Step 1 — Resolve the review target
 
@@ -47,11 +47,17 @@ State the resolved scope in ONE line, e.g. `Reviewing: PR #57 — base abc1234 �
 
 ## Step 2 — Launch the workflow
 
-Call the `Workflow` tool with the script that ships next to this file:
+The script ships next to this file at `${CLAUDE_SKILL_DIR}/adversarial-review.js`, but the `Workflow` tool only accepts a `scriptPath` inside the working directory, an added directory, or a path it returned itself — a skill or plugin directory is rejected (`scriptPath must be a script path this tool returned, or a file you can already read`). So **first copy the script into your session scratchpad directory** (the one named in your environment context), then launch from that copy:
+
+```
+cp "${CLAUDE_SKILL_DIR}/adversarial-review.js" "<scratchpad>/adversarial-review.js"
+```
+
+Do not pass the skill-directory path, a bare filename, or a guessed path to `Workflow`. If this session has no scratchpad directory, read the script and pass its full contents inline via `script` instead of `scriptPath`.
 
 ```
 Workflow({
-  scriptPath: "${CLAUDE_SKILL_DIR}/adversarial-review.js",
+  scriptPath: "<scratchpad>/adversarial-review.js",
   args: {
     repo: "<absolute repo path>",
     base: "<sha or ref>",
@@ -67,7 +73,7 @@ Workflow({
 
 `args` MUST be a real JSON object (not a stringified one). Optional extras: `lenses: [{key, prompt}, …]` replaces the profile's lens set entirely (use when the diff is unusual and you know exactly what to look for); `maxVerify` (default 40) caps how many distinct findings are verified — the overflow is returned as `unverified`, never silently dropped.
 
-Do not edit the script to hardcode values; if something about the script needs to change for this repo, pass `lenses`/`context` instead.
+Do not edit the script (or the copy) to hardcode values; if something about the script needs to change for this repo, pass `lenses`/`context` instead.
 
 **If the `Workflow` tool is unavailable** in this session (not offered, or it errors as disabled), run the same procedure with the `Agent` tool: launch one agent per lens in parallel with the reviewer prompt from the script (ask for the `findings` JSON), dedupe by `file:line` yourself, then launch one verifier agent per distinct finding with the verifier prompt, and apply the same rule (a finding survives only if no verifier refutes it). Say explicitly that you used the fallback.
 
