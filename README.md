@@ -54,6 +54,17 @@ claude plugin install adversarial-workflow@adversarial-workflow --scope project
 
 Until then `/plugin` lists it under **Errors** as "enabled in project settings but isn't installed here". Anyone who does not want it can set the same key to `false` in their `.claude/settings.local.json`.
 
+### Update
+
+New versions do not reach you on their own: auto-update is off for third-party marketplaces unless you turn it on. Either update by hand:
+
+```
+/plugin marketplace update adversarial-workflow        # in a session: refresh the catalog and update its plugins
+claude plugin update adversarial-workflow@adversarial-workflow   # from your shell
+```
+
+or turn auto-update on once: `/plugin`, **Marketplaces** tab, select `adversarial-workflow`, **Enable auto-update**. Claude Code then updates the plugin in the background shortly after a session starts and tells you to run `/reload-plugins`. Each release bumps the plugin version, which is what makes an update visible.
+
 ## Use
 
 ```
