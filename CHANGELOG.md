@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4 — 2026-10-12
+
+- Docs only. README: project `.claude/settings.json` snippet for enabling the plugin per repository, the one-command install form, the namespaced command name after a plugin install, and cost figures replaced by the measured reference run (17 agents, ~400k tokens, ~2.5 min). SKILL.md cost line aligned with it.
+
 ## 1.0.3 — 2026-10-12
 
 - Fix: the `Workflow` tool rejects a `scriptPath` outside the working directory (`scriptPath must be a script path this tool returned, or a file you can already read`), so launching straight from the skill/plugin directory always failed on the first try and Claude had to improvise. Step 2 now copies `adversarial-review.js` into the session scratchpad and launches from that copy (inline `script` fallback when there is no scratchpad); `Bash(cp ${CLAUDE_SKILL_DIR}/adversarial-review.js *)` added to `allowed-tools`.
